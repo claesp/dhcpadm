@@ -1,0 +1,43 @@
+{% code
+type AdminAgentsAdd struct {
+	Agent AdminAgentsAddAgent
+	ErrorMessage string
+}
+%}
+{% code
+type AdminAgentsAddAgent struct {
+	Name string
+	Hostname string
+	Port string
+	Version string
+	Confirmed string
+}
+%}
+
+{% func (p *AdminAgentsAdd) Title() %}Add a new agent{% endfunc %}
+{% func (p *AdminAgentsAdd) Body() %}
+		<p><a href="/admin/" title="Administration">Administration</a> / <a href="/admin/agents/" title="Agents">Agents</a> / <a href="/admin/agents/add/" title="Add a new agent">Add a new agent</a> / </p>
+		<hr>
+		<h2>Add a new agent</h2>
+		{% if p.HasError() %}<p>{%= p.Error() %}</p>{% endif %}
+		<form method="post" action="/admin/agents/add/new/">
+			<p>
+				<label for="agent_hostname">Hostname</label>
+				<br>
+				<input type="text" name="agent_hostname" value="{%s p.Agent.Hostname %}" placeholder="localhost">
+			</p>
+			<p>
+				<label for="agent_port">Port</label>
+				<br>
+				<input type="text" name="agent_port" value="{%s p.Agent.Port %}" placeholder="9091">
+			</p>
+			<input type="hidden" name="creation_confirm" value="{%s p.Agent.Confirmed %}">
+			<p><input type="submit" value="Add"></p>
+		</form>
+{% endfunc %}
+{% code
+func (p *AdminAgentsAdd) HasError() bool {
+	return len(p.ErrorMessage) > 0
+}
+%}
+{% func (p *AdminAgentsAdd) Error() %}{%s p.ErrorMessage %}{% endfunc %}

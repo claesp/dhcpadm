@@ -1,0 +1,22 @@
+{% code
+type AdminIndex struct {
+	ErrorMessage string
+}
+%}
+
+{% func (p *AdminIndex) Title() %}Administration{% endfunc %}
+{% func (p *AdminIndex) Body() %}
+		<p><a href="/admin/" title="Administration">Administration</a> / </p>
+		<hr>
+		<h2>Administration</h2>
+		{% if p.HasError() %}<p>{%= p.Error() %}</p>{% endif %}
+		<ol>
+			<li><a href="/admin/agents/" title="Agents">Agents</a></li>
+		</ol>
+{% endfunc %}
+{% code
+func (p *AdminIndex) HasError() bool {
+	return len(p.ErrorMessage) > 0
+}
+%}
+{% func (p *AdminIndex) Error() %}{%s p.ErrorMessage %}{% endfunc %}

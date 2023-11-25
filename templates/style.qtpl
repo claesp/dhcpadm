@@ -1,0 +1,35 @@
+{% interface
+Style {
+	Body()
+}
+%}
+
+{% func StyleTemplate(s Style) %}
+{%= s.Body() %}
+{% endfunc %}
+
+{% code type BaseStyle struct {} %}
+{% func (p *BaseStyle) Body() %}
+body {
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	float: left;
+	width: 100%;
+}
+
+nav {
+	float: left;
+}
+
+main {
+	float: left;
+}
+
+footer {
+	float: left;
+	width: 100%;
+}
+{% endfunc %}

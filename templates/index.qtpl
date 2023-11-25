@@ -1,0 +1,22 @@
+{% code
+type Index struct {
+	ErrorMessage string
+}
+%}
+
+{% func (p *Index) Title() %}Home{% endfunc %}
+{% func (p *Index) Body() %}
+		<p><a href="/" title="Home">Home</a> /</p>
+		<hr>
+		<h2>Home</h2>
+		{% if p.HasError() %}<p>{%= p.Error() %}</p>{% endif %}
+		<ol>
+			<li><a href="/admin/" title="Administration">Administration</a></li>
+		</ol>
+{% endfunc %}
+{% code
+func (p *Index) HasError() bool {
+	return len(p.ErrorMessage) > 0
+}
+%}
+{% func (p *Index) Error() %}{%s p.ErrorMessage %}{% endfunc %}

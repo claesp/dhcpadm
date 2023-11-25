@@ -1,0 +1,46 @@
+{% code
+type AdminAgentsAddNew struct {
+	Agent AdminAgentsAddAgent
+	ErrorMessage string
+}
+%}
+
+{% func (p *AdminAgentsAddNew) Title() %}Confirm | Add a new instance{% endfunc %}
+{% func (p *AdminAgentsAddNew) Body() %}
+		<p><a href="/admin/" title="Administration">Administration</a> / <a href="/admin/agents/" title="Agents">Agents</a> / <a href="/admin/agents/add/" title="Add a new agents">Add a new agents</a> / Confirm</p>
+		<hr>
+		<h2>Add a new agent</h2>
+		<h3>Confirm</h3>
+		{% if p.HasError() %}
+		<p>{%s p.Error() %}</p>
+		{% else %}
+		<p>Are you sure you want to add this agent <strong>{%s p.Agent.Name %}</strong>, to be managed by this system?</p>
+		<table>
+			<tr>
+				<td>Name</td>
+				<td>{%s p.Agent.Name %}</td>
+			</tr>
+			<tr>
+				<td>Hostname</td>
+				<td>{%s p.Agent.Hostname %}:{%s p.Agent.Port %}</td>
+			</tr>
+			<tr>
+				<td>Version</td>
+				<td>{%s p.Agent.Version %}</td>
+			</tr>
+		</table>
+		<form method="post" action="/admin/agents/add/new/">
+			<input type="hidden" name="agent_name" value="{%s p.Agent.Name %}">
+			<input type="hidden" name="agent_hostname" value="{%s p.Agent.Hostname %}">
+			<input type="hidden" name="agent_port" value="{%s p.Agent.Port %}">
+			<input type="hidden" name="creation_confirm" value="{%s p.Agent.Confirmed %}">
+			<p><input type="submit" value="Add"></p>
+		</form>
+		{% endif %}
+{% endfunc %}
+{% code
+func (p *AdminAgentsAddNew) HasError() bool {
+	return len(p.ErrorMessage) > 0
+}
+%}
+{% func (p *AdminAgentsAddNew) Error() %}{%s p.ErrorMessage %}{% endfunc %}

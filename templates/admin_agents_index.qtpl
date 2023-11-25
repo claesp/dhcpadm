@@ -1,0 +1,22 @@
+{% code
+type AdminAgentsIndex struct {
+	ErrorMessage string
+}
+%}
+
+{% func (p *AdminAgentsIndex) Title() %}Agents{% endfunc %}
+{% func (p *AdminAgentsIndex) Body() %}
+		<p><a href="/admin/" title="Administration">Administration</a> / <a href="/admin/agents/" title="Agents">Agents</a> /</p>
+		<hr>
+		<h2>Agents</h2>
+		{% if p.HasError() %}<p>{%= p.Error() %}</p>{% endif %}
+		<ol>
+			<li><a href="/admin/agents/add/" title="Add a new agent">Add a new agent</a></li>
+		</ol>
+{% endfunc %}
+{% code
+func (p *AdminAgentsIndex) HasError() bool {
+	return len(p.ErrorMessage) > 0
+}
+%}
+{% func (p *AdminAgentsIndex) Error() %}{%s p.ErrorMessage %}{% endfunc %}
